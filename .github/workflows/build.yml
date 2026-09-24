@@ -10,8 +10,10 @@ jobs:
       - name: Install Theos
         run: |
           git clone --recursive https://github.com/theos/theos.git ~/theos
-          echo "export THEOS=~/theos" >> ~/.zshrc
-          source ~/.zshrc
+          export THEOS=~/theos
+          # 下载Theos官方SDK
+          git clone https://github.com/theos/sdks.git ~/theos/sdks
+          echo "THEOS=$THEOS" >> $GITHUB_ENV
       - name: Compile
         run: |
           source ~/.zshrc
