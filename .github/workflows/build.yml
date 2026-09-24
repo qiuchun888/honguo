@@ -2,24 +2,21 @@ name: Build Tweak
 on:
   push:
   workflow_dispatch:
+
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
-      - name: Install Theos
+
+      - name: Setup Theos
+        uses: theos/setup-theos@v1
+
+      - name: Build Tweak
         run: |
-          git clone --recursive https://github.com/theos/theos.git ~/theos
-          export THEOS=~/theos
-          if [ ! -d ~/theos/sdks ]; then
-            git clone https://github.com/theos/sdks.git ~/theos/sdks
-          fi
-          echo "THEOS=$THEOS" >> $GITHUB_ENV
-      - name: Compile
-        run: |
-          source ~/.zshrc
           make clean
           make
+
       - name: Upload dylib
         uses: actions/upload-artifact@v4
         with:
